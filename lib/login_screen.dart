@@ -73,6 +73,7 @@ class _LoginViewState extends State<LoginView> {
                         });
                       },
                       decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.only(left: 10),
                         labelText: 'Email',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)
@@ -88,6 +89,7 @@ class _LoginViewState extends State<LoginView> {
                           });
                         },
                         decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(left: 10),
                             labelText: 'Password',
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)
@@ -103,12 +105,18 @@ class _LoginViewState extends State<LoginView> {
                         onPressed: () async{
                           await _login(email.trim(), password.trim()).then((value) {
                             if(value!=null){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomeScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const MyHomeScreen()));
                             }
 
                           });
                       },color: Colors.blue,
-                      child:  const Text('Login'),),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                      child:  const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                        child:  Text('Login'),
+                      ),),
                     ),
                   ],
                 ),
