@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "194612515304",
+    "firebase_url": "https://myiot-b7587-default-rtdb.firebaseio.com",
+    "project_id": "myiot-b7587",
+    "storage_bucket": "myiot-b7587.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194612515304:android:e10370d68ecf116acf545d",
+        "android_client_info": {
+          "package_name": "com.example.project_iot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194612515304-ejuh4r6rrckem91dsi8qjru709cbmcd4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFcRjKqam9UHnkdAb-jqr4r9znnpkptgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194612515304-ejuh4r6rrckem91dsi8qjru709cbmcd4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194612515304:android:640432be32bba545cf545d",
+        "android_client_info": {
+          "package_name": "com.jacobi.iot_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194612515304-ejuh4r6rrckem91dsi8qjru709cbmcd4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFcRjKqam9UHnkdAb-jqr4r9znnpkptgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194612515304-ejuh4r6rrckem91dsi8qjru709cbmcd4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194612515304:android:5298d76975f73e9dcf545d",
+        "android_client_info": {
+          "package_name": "jacobi.iot_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194612515304-ejuh4r6rrckem91dsi8qjru709cbmcd4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFcRjKqam9UHnkdAb-jqr4r9znnpkptgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194612515304-ejuh4r6rrckem91dsi8qjru709cbmcd4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
