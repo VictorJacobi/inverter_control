@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project_iot/login_screen.dart';
-import 'package:project_iot/main_screen.dart';
+import 'package:project_iot/app/app.locator.dart';
+import 'package:project_iot/app/app_themes.dart';
+import 'package:project_iot/UI/screens/login/login_screen.dart';
+import 'package:project_iot/UI/screens/home/home_screen.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'firebase_options.dart';
 
 import'package:firebase_core/firebase_core.dart';
@@ -10,6 +13,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await setupLocator();
+  await ThemeManager.initialise();
   runApp(const MyApp());
 }
 
@@ -19,28 +24,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const LoginView(),
+    return ThemeBuilder(
+      darkTheme: AppThemes.darkTheme,
+      lightTheme: AppThemes.lightTheme,
+      builder: (context, regularTheme, darkTheme, themeMode) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: regularTheme,
+          darkTheme: darkTheme,
+          themeMode: themeMode,
+          home: const LoginView(),
+        );
+      }
     );
   }
 }

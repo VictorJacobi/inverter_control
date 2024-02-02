@@ -51,11 +51,13 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     return StreamBuilder<DatabaseEvent>(
       stream: dbRef.child("BatteryLevel/level").onValue,
       builder: (context, snapshot) {
-        log(('snapshot: ${snapshot.data?.snapshot.value}'));
+
         int? level = snapshot.data?.snapshot.value as int?;
 
         if(snapshot.data==null){
-          return const Scaffold(body: SizedBox());
+          return const Scaffold(body: Center(
+            child: CircularProgressIndicator(color: Colors.blue,),
+          ));
         }
         return Scaffold(
           floatingActionButton: FloatingActionButton.extended(
@@ -82,56 +84,43 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
               ),
             ),
           ),
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Colors.blue,
-            title: const Text(
-              'IOT APP',
-              style: TextStyle(
-                // color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          body: SafeArea(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                await readData();
-              },
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.sizeOf(context).height - 80,
-                      child: Center(
-                        child: SizedBox(
-                          width: MediaQuery.sizeOf(context).width * 0.7,
-                          height: MediaQuery.sizeOf(context).height / 3,
-                          child: Center(
-                            child: CircleProgressBar(
-                              foregroundColor: Colors.blue,
-                              backgroundColor: Colors.black12,
-                              value: (3.3 * (level!) / (4093 * 0.138 * 24.8)),
-                              strokeWidth: 20,
-                              child: Center(
-                                child: AnimationCount(
-                                  count:
-                                      (3.3 * level / (4093 * 0.138 * 24.8)),
-                                  unit: '%',
-                                  unitScaleFactor: 4,
-                                  duration: const Duration(milliseconds: 500),
-                                ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await readData();
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  SizedBox(
+                    height: MediaQuery.sizeOf(context).height - 80,
+                    child: Center(
+                      child: SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.7,
+                        height: MediaQuery.sizeOf(context).height / 3,
+                        child: Center(
+                          child: CircleProgressBar(
+                            foregroundColor: Colors.blue,
+                            backgroundColor: Colors.black12,
+                            value:  ((3.3 * level!)/ (4093 * 0.1335 )-20.2)/(24.8-20.2),
+                            strokeWidth: 20,
+                            child: Center(
+                              child: AnimationCount(
+                                count:
+                                    ((3.3 * level)/ (4093 * 0.1335 )-20.2)/(24.8-20.2),
+                                unit: '%',
+                                unitScaleFactor: 4,
+                                duration: const Duration(milliseconds: 500),
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
