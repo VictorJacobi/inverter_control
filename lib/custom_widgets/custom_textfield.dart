@@ -132,7 +132,7 @@ class _CustomTextInputFieldState extends State<CustomTextInputField> {
             },
             icon: !showpassword
                 ?  SvgPicture.asset(
-              AppHelpers.visibility_icon,
+              AppHelpers.svg_visibility_icon,
               color: AppHelpers.grey500,
             )
                 : const Icon(

@@ -25,7 +25,7 @@ class LoginView extends HookWidget {
     controller.forward();
     final ThemeManager _themeManager = getThemeManager(context);
     return ViewModelBuilder<LoginViewModel>.reactive(
-      viewModelBuilder: () => LoginViewModel(locator<Authentication>(),locator<ThemeService>(),),
+      viewModelBuilder: () => LoginViewModel(locator<Authentication>(),),
       builder: (context,model,child) => WillPopScope(
         onWillPop: () async{
           return false;
@@ -45,38 +45,42 @@ class LoginView extends HookWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // const Expanded(child: SizedBox.shrink()),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 24.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
 
-                                InkWell(
-                                  onTap: (){getThemeManager(context)
-                                      .toggleDarkLightTheme();},
-                                  // model.toggleTheme,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(16),
-                                    decoration: BoxDecoration(
-                                      color: _themeManager.isDarkMode?AppHelpers.darkSecondaryColor:Theme.of(context).primaryColor,
-                                      borderRadius: BorderRadius.circular(12),
+                                  InkWell(
+                                    onTap: (){
+                                      getThemeManager(context)
+                                        .toggleDarkLightTheme();},
+                                    // model.toggleTheme,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: _themeManager.isDarkMode?AppHelpers.blackTextColor1:Theme.of(context).primaryColor,
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                        child: Image.asset(AppHelpers.imgToggle),
                                     ),
-                                      child: Image.asset(AppHelpers.toggle),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                              Padding(
-                               padding: const EdgeInsets.only(bottom: 36.0),
+                               padding: const EdgeInsets.only(bottom: 36.0,top: 20),
                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                  children: [
                                    Animate(
                                      controller: controller,
                                    ).custom(
-                                     duration: 10.seconds,
-                                     begin: 3,
-                                     end: 10,
+                                     duration: 2.seconds,
+                                     begin: 6,
+                                     end: 20,
                                      builder: (_, value, __) => Image.asset(
-                                       AppHelpers.logo,
+                                       _themeManager.isDarkMode?AppHelpers.imgLogo:AppHelpers.lightImgLogo,
                                        height: value*10,
                                      ),
                                    ).move(),
@@ -100,7 +104,7 @@ class LoginView extends HookWidget {
                               filled: true,
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.only(left: 30,top: 20,bottom: 20,right: 10),
-                                child: SvgPicture.asset(AppHelpers.message_icon,fit: BoxFit.cover,width: 16,height: 13,color: _themeManager.isDarkMode?AppHelpers.primaryColor:AppHelpers.darkButtonColor,),
+                                child: SvgPicture.asset(AppHelpers.svg_message_icon,fit: BoxFit.cover,width: 16,height: 13,color: _themeManager.isDarkMode?AppHelpers.goldPrimaryColor:AppHelpers.blueDarkButtonColor,),
                               ),
                             ),
                             Padding(
@@ -122,7 +126,7 @@ class LoginView extends HookWidget {
                               ispassword: true,
                               prefixIcon: Padding(
                                 padding: const EdgeInsets.only(left: 20,top: 20,bottom: 20,right: 10),
-                                child: SvgPicture.asset(AppHelpers.lock_icon,fit: BoxFit.cover,color: _themeManager.isDarkMode?AppHelpers.primaryColor:AppHelpers.darkButtonColor,),
+                                child: SvgPicture.asset(AppHelpers.svg_lock_icon,fit: BoxFit.cover,color: _themeManager.isDarkMode?AppHelpers.goldPrimaryColor:AppHelpers.blueDarkButtonColor,),
                               ),
 
                             ),
@@ -135,7 +139,7 @@ class LoginView extends HookWidget {
                     height: MediaQuery.sizeOf(context).height/4,
                     width: double.infinity,
                     decoration:  ShapeDecoration(
-                      color: _themeManager.isDarkMode?Theme.of(context).inputDecorationTheme.fillColor:AppHelpers.lightSecondaryColor,
+                      color: _themeManager.isDarkMode?Theme.of(context).inputDecorationTheme.fillColor:AppHelpers.lightContainerColor,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(32),topRight: Radius.circular(32)),
                         ),
@@ -151,7 +155,7 @@ class LoginView extends HookWidget {
                           }
 
                         });
-                      }, color: getThemeManager(context).isDarkMode?AppHelpers.darkButtonColor:AppHelpers.darkPrimaryColor,
+                      }, color: getThemeManager(context).isDarkMode?AppHelpers.blueDarkButtonColor:AppHelpers.darkPrimaryColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(53)
                       ),

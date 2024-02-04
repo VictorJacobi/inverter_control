@@ -1,6 +1,9 @@
 
 import 'package:project_iot/UI/screens/login/login_screen.dart';
+import 'package:project_iot/UI/screens/splash/splash_screen.dart';
 import 'package:project_iot/networks/data_base/authenticate.dart';
+import 'package:project_iot/networks/data_base/readData.dart';
+import 'package:project_iot/networks/data_base/write_data.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
@@ -9,10 +12,13 @@ import 'package:stacked_themes/stacked_themes.dart';
 @StackedApp(
   routes: [
     MaterialRoute(page: LoginView),
+    MaterialRoute(page: SplashScreen),
     // @stacked-route
   ],
   dependencies: [
     LazySingleton(classType: Authentication),
+    LazySingleton(classType: WriteData),
+    LazySingleton(classType: ReadData),
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),

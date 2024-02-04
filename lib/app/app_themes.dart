@@ -5,7 +5,7 @@ class AppThemes{
   static ThemeData darkTheme = ThemeData(
     // useMaterial3: true,
 
-    primaryColor: AppHelpers.primaryColor,
+    primaryColor: AppHelpers.goldPrimaryColor,
     colorScheme: ColorScheme.fromSwatch(
       backgroundColor: AppHelpers.darkPrimaryColor,
       cardColor: const Color(0xFF101C35),
@@ -30,13 +30,13 @@ class AppThemes{
   static ThemeData lightTheme = ThemeData(
     // useMaterial3: true,
 
-    primaryColor: AppHelpers.lightSecondaryColor,
+    primaryColor: AppHelpers.lightContainerColor,
     colorScheme: ColorScheme.fromSwatch(
       backgroundColor: AppHelpers.lightBackgroundColor,
       cardColor: const Color(0xFFEAEFFA),
     ),
       buttonTheme: const ButtonThemeData(
-        buttonColor: AppHelpers.primaryColor,
+        buttonColor: AppHelpers.goldPrimaryColor,
       ),
       inputDecorationTheme: const InputDecorationTheme(
         fillColor: AppHelpers.lightFillColor,

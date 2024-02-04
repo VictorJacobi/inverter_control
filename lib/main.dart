@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:project_iot/UI/screens/splash/splash_screen.dart';
 import 'package:project_iot/app/app.locator.dart';
+import 'package:project_iot/app/app.router.dart';
 import 'package:project_iot/app/app_themes.dart';
 import 'package:project_iot/UI/screens/login/login_screen.dart';
 import 'package:project_iot/UI/screens/home/home_screen.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'firebase_options.dart';
 
@@ -30,10 +33,15 @@ class MyApp extends StatelessWidget {
       builder: (context, regularTheme, darkTheme, themeMode) {
         return MaterialApp(
           title: 'Flutter Demo',
+          navigatorKey: StackedService.navigatorKey,
           theme: regularTheme,
           darkTheme: darkTheme,
           themeMode: themeMode,
-          home: const LoginView(),
+          initialRoute: Routes.splashScreen,
+          onGenerateRoute: StackedRouter().onGenerateRoute,
+          // navigatorKey: StackedService.navigatorKey,
+          navigatorObservers: [StackedService.routeObserver],
+          // home: const SplashScreen(),
         );
       }
     );

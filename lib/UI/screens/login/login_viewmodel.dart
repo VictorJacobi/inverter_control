@@ -4,9 +4,9 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
 class LoginViewModel extends BaseViewModel {
-  LoginViewModel(this._auth,this._theme);
+  LoginViewModel(this._auth,);
   final Authentication _auth;
-  final ThemeService _theme;
+  // final ThemeService _theme;
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
 
@@ -15,8 +15,8 @@ class LoginViewModel extends BaseViewModel {
     final value = await runBusyFuture(_auth.login(email.text.trim(), password.text.trim()),throwException: true);
     return value!=null;
   }
-  void toggleTheme(){
-    _theme.toggleDarkLightTheme();
-  }
+  // void toggleTheme(){
+  //   _theme.toggleDarkLightTheme();
+  // }
 
 }
