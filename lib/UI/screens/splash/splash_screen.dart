@@ -30,7 +30,8 @@ class SplashScreen extends HookWidget {
             begin: 6,
             end: 20,
             builder: (_, value, __) => Image.asset(
-              _themeManager.isDarkMode?AppHelpers.imgLogo:AppHelpers.lightImgLogo,
+              _themeManager.isDarkMode?AppHelpers.logoJpg:AppHelpers.logoJpg,
+              // _themeManager.isDarkMode?AppHelpers.imgLogo:AppHelpers.lightImgLogo,
               // width: 500,
               height: value*10,
             ),

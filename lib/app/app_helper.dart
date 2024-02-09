@@ -42,6 +42,10 @@ class AppHelpers {
     pathName = "$pathName.png";
     return _basePng + pathName;
   }
+  static String _getJPGImagePath(String pathName) {
+    pathName = "$pathName.jpg";
+    return _basePng + pathName;
+  }
   static String imgLogo = _getImagePath('logo');
   static String lightImgLogo = _getImagePath('light_logo');
   static String lightImgLogo1 = _getImagePath('light_logo1');
@@ -50,6 +54,7 @@ class AppHelpers {
   static String imgToggle = _getImagePath('toggle');
   static String imgLightToggle = _getImagePath('light_toggle');
   static String imgAvatar = _getImagePath('Avatar');
+  static String logoJpg = _getJPGImagePath('NGESC logo ');
   static String svg_logo_icon = _getSvgPath('logo_icon');
   static String svg_temp = _getSvgPath('temp');
   static String svg_temperature = _getSvgPath('temperature');

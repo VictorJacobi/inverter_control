@@ -22,291 +22,269 @@ Color offColor = Colors.greenAccent;
 String bulbText = 'ON';
 bool value = true;
 
-class MyHomeScreen extends StatefulWidget {
+class MyHomeScreen extends StatelessWidget {
   const MyHomeScreen({Key? key}) : super(key: key);
-  @override
-  // State<_MyHomeScreenState> createState() => _MyHomeScreenState();
-  State<MyHomeScreen> createState() => _MyHomeScreenState();
-}
-
-class _MyHomeScreenState extends State<MyHomeScreen> {
-  final dbRef = FirebaseDatabase.instance.ref();
-  int batteryValue = 0;
-
-  Future<void> readData() async {
-    DataSnapshot snapshot = await dbRef.child("BatteryLevel/level").get();
-
-    setState(() {
-      batteryValue = snapshot.value as int;
-    });
-    log('${snapshot.children.map((e) => e.value)}\n${snapshot.value}');
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    readData();
-  }
 
   @override
   Widget build(BuildContext context) {
-    final ThemeManager themeManager = getThemeManager(context);
-
+    ThemeManager themeManager = getThemeManager(context);
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(locator<WriteData>(),locator<ReadData>(),),
       builder: (context,model,child) => StreamBuilder<DatabaseEvent>(
-        stream: model.event,
-        builder: (context, snapshot) {
+          stream: model.event,
+          builder: (context, snapshot) {
 
 
-          Map<dynamic,dynamic>? data = snapshot.data?.snapshot.value as Map<dynamic,dynamic>?;
-          int? level = data?['batteryLevel']?['value'];
-          bool? lightState = data?['lightState']?['switch'] as bool?;
-          // log('${snapshot.data?.snapshot.value}');
-          List<ApplianceModel> appliances = [];
-          if(data!=null){
-            for(var key in data.keys){
-              // log('${data[key].runtimeType}');
-              if(key!='lightState'&&key!='batteryLevel'){
-                appliances.add(ApplianceModel.fromJson(data[key]));
+            Map<dynamic,dynamic>? data = snapshot.data?.snapshot.value as Map<dynamic,dynamic>?;
+            int? level = data?['battery']?['value'];
+            bool? lightState = data?['lightState']?['switch'] as bool?;
+            // log('${snapshot.data?.snapshot.value}');
+            List<ApplianceModel> appliances = [];
+            if(data!=null){
+              for(var key in data.keys){
+                // log('${data[key].runtimeType}');
+                if(key!='lightState'&&key!='batteryLevel'&&key!='battery'){
+                  appliances.add(ApplianceModel.fromJson(data[key]));
+                }
               }
             }
-          }
-          // log('$appliances');
+            // log('$appliances');
 
-          // if(snapshot.data==null){
-          //   return const Scaffold(body: Center(
-          //     child: CircularProgressIndicator(color: Colors.blue,),
-          //   ));i
-          // }
-          return Stack(
-            children: [
-              Scaffold(
-                backgroundColor: themeManager.isDarkMode?AppHelpers.darkPrimaryColor: Colors.white,
-                body: SafeArea(
-                  top: true,
-                  bottom: false,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    ProfilePicImageViewer(
-                                      imageType: ImageType.asset,
-                                    image: AppHelpers.imgAvatar,
-                                      height: 52,
-                                      width: 52,
-                                    ),
-                                     Padding(
-                                      padding:  const EdgeInsets.only(left: 8.0),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                              'Hello Zainab!',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: AppHelpers.goldPrimaryColor,
-                                            ),
-                                          ),
-                                          Text(
-                                              'What are we doing today?',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: themeManager.isDarkMode?Colors.white:AppHelpers.blackTextColor1,
-                                            ),
-                                          ),
-
-                                        ],
-                                      ),
-                                    ),
-                                    const Expanded(child: SizedBox.shrink()),
-                                    InkWell(
-                                      onTap: () {
-                                        themeManager
-                                            .toggleDarkLightTheme();
-                                        },
-                                      // model.toggleTheme,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(16),
-                                        decoration: BoxDecoration(
-                                          color: themeManager.isDarkMode?AppHelpers.blackTextColor1:Theme.of(context).primaryColor,
-                                          borderRadius: BorderRadius.circular(12),
-                                        ),
-                                        child: Image.asset(themeManager.isDarkMode?AppHelpers.imgToggle:AppHelpers.imgLightToggle),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 16),
-                                  decoration: BoxDecoration(
-                                    color: themeManager.isDarkMode?AppHelpers.darkContainerColor:AppHelpers.lightContainerColor,
-                                    borderRadius: BorderRadius.circular(28),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+            // if(snapshot.data==null){
+            //   return const Scaffold(body: Center(
+            //     child: CircularProgressIndicator(color: Colors.blue,),
+            //   ));i
+            // }
+            return Stack(
+              children: [
+                Scaffold(
+                  backgroundColor: themeManager.isDarkMode?AppHelpers.darkPrimaryColor: Colors.white,
+                  body: SafeArea(
+                    top: true,
+                    bottom: false,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
                                     children: [
-                                      Container(
-                                        margin: const EdgeInsets.all(16),
-                                        decoration:  BoxDecoration(
-                                          color: themeManager.isDarkMode?AppHelpers.darkContainerColor:Colors.white,
-                                          borderRadius: BorderRadius.circular(16),
-                                        ),
-                                        height: MediaQuery.sizeOf(context).height/6,
-                                        padding: const EdgeInsets.all(24),
-                                        child: Row(
+                                      ProfilePicImageViewer(
+                                        imageType: ImageType.asset,
+                                        image: AppHelpers.logoJpg,
+                                        height: 52,
+                                        width: 52,
+                                      ),
+                                      Padding(
+                                        padding:  const EdgeInsets.only(left: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            CircleProgressBar(
-                                              foregroundColor: AppHelpers.blueDarkButtonColor,
-                                              backgroundColor: Colors.black12,
-                                              value:  ((3.3 * (level??0))/ (4093 * 0.1335 )-20.2)/(24.8-20.2),
-                                              strokeWidth: 10,
-                                              child: Center(
-                                                child: AnimationCount(
-                                                  count:
-                                                  ((3.3 * (level??0))/ (4093 * 0.1335 )-20.2)/(24.8-20.2),
-                                                  unit: '%',
-                                                  unitScaleFactor: 1.4,
-                                                  duration: const Duration(milliseconds: 500),
-                                                  style: const TextStyle(
-                                                    color: AppHelpers.lightTextColor2
-                                                  ),
-                                                ),
+                                            const Text(
+                                              'Hello N-GESC!',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: AppHelpers.goldPrimaryColor,
                                               ),
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width/6.7),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                  const Text(
-                                                      'Battery voltage',
-                                                    style: TextStyle(
-                                                      color: AppHelpers.lightTextColor3,
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w500
-                                                    ),
-                                                  ),
-                                                  RichText(
-                                                      text:  TextSpan(
-                                                          text: ((3.3 * (level??0))/ (4093 * 0.1335 )).toStringAsFixed(1),
-                                                          style: TextStyle(
-                                                            color: themeManager.isDarkMode?Colors.white:AppHelpers.lightTextColor4,
-                                                            fontSize: 28,
-                                                            fontWeight: FontWeight.w500,
-                                                          ),
-                                                          children: const [
-                                                            TextSpan(
-                                                              text: ' Volts',
-                                                              style: TextStyle(
-                                                                color: AppHelpers.blueDarkButtonColor,
-                                                                fontSize: 17,
-                                                                fontWeight: FontWeight.w500,
-                                                              ),
-                                                            )
-                                                          ]
-                                                      )),
-                                                ],
+                                            Text(
+                                              'What are we doing today?',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: themeManager.isDarkMode?Colors.white:AppHelpers.blackTextColor1,
                                               ),
-                                            )
+                                            ),
+
                                           ],
                                         ),
                                       ),
-                                     SizedBox(
-                                       width: MediaQuery.sizeOf(context).width,
-                                       child: GridView.builder(
-                                         padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
-                                         shrinkWrap: true,
-                                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                           crossAxisCount: 2, // Number of columns
-                                           crossAxisSpacing: 16.0, // Spacing between columns
-                                           mainAxisSpacing: 16.0, // Spacing between rows
-                                         ),
-                                         itemCount: appliances.length,
-                                         itemBuilder: (BuildContext context, int index) {
-                                           // Replace this with the widget you want to display for each item
-                                           return  ApplianceCard(
-                                             type: appliances[index].type,
-                                             value: '${appliances[index].value??''}',
-                                             unit: appliances[index].unit,
-                                             svgImage: AppHelpers().svgPath(appliances[index].image??''),
-                                             // svgImage: AppHelpers.svg_logo_icon,
-                                           );
-                                         },
-                                         // alignment: WrapAlignment.spaceEvenly,
-                                       ),
-                                     )
+                                      const Expanded(child: SizedBox.shrink()),
+                                      InkWell(
+                                        onTap: () {
+                                          themeManager
+                                              .toggleDarkLightTheme();
+                                        },
+                                        // model.toggleTheme,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(16),
+                                          decoration: BoxDecoration(
+                                            color: themeManager.isDarkMode?AppHelpers.blackTextColor1:Theme.of(context).primaryColor,
+                                            borderRadius: BorderRadius.circular(12),
+                                          ),
+                                          child: Image.asset(themeManager.isDarkMode?AppHelpers.imgToggle:AppHelpers.imgLightToggle),
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 16),
+                                    decoration: BoxDecoration(
+                                      color: themeManager.isDarkMode?AppHelpers.darkContainerColor:AppHelpers.lightContainerColor,
+                                      borderRadius: BorderRadius.circular(28),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.all(16),
+                                          decoration:  BoxDecoration(
+                                            color: themeManager.isDarkMode?AppHelpers.darkContainerColor:Colors.white,
+                                            borderRadius: BorderRadius.circular(16),
+                                          ),
+                                          height: MediaQuery.sizeOf(context).height/6,
+                                          padding: const EdgeInsets.all(24),
+                                          child: Row(
+                                            children: [
+                                              CircleProgressBar(
+                                                foregroundColor: AppHelpers.blueDarkButtonColor,
+                                                backgroundColor: Colors.black12,
+                                                value: model.calculatePercentage(level),
+                                                // value:  .75,
+                                                strokeWidth: 10,
+                                                child:  Center(
+                                                  child: AnimationCount(
+                                                    count: model.calculatePercentage(level),
+                                                    // count: .75,
+                                                    // ((18 * (level??0))/ (65535)),
+                                                    unit: '%',
+                                                    unitScaleFactor: 1.4,
+                                                    duration: const Duration(milliseconds: 500),
+                                                    style: const TextStyle(
+                                                        color: AppHelpers.lightTextColor2
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width/6.7),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    const Text(
+                                                      'Battery voltage',
+                                                      style: TextStyle(
+                                                          color: AppHelpers.lightTextColor3,
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w500
+                                                      ),
+                                                    ),
+                                                    RichText(
+                                                        text:  TextSpan(
+                                                            text: model.calculateBatteryVoltage(level).toStringAsFixed(1)??'',
+                                                            style: TextStyle(
+                                                              color: themeManager.isDarkMode?Colors.white:AppHelpers.lightTextColor4,
+                                                              fontSize: 28,
+                                                              fontWeight: FontWeight.w500,
+                                                            ),
+                                                            children: const [
+                                                              TextSpan(
+                                                                text: ' Volts',
+                                                                style: TextStyle(
+                                                                  color: AppHelpers.blueDarkButtonColor,
+                                                                  fontSize: 17,
+                                                                  fontWeight: FontWeight.w500,
+                                                                ),
+                                                              )
+                                                            ]
+                                                        )),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.sizeOf(context).width,
+                                          child: GridView.builder(
+                                            padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+                                            shrinkWrap: true,
+                                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2, // Number of columns
+                                              crossAxisSpacing: 16.0, // Spacing between columns
+                                              mainAxisSpacing: 16.0, // Spacing between rows
+                                            ),
+                                            itemCount: appliances.length,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              // Replace this with the widget you want to display for each item
+                                              return  ApplianceCard(
+                                                type: appliances[index].type,
+                                                value: appliances[index].value==null?'':appliances[index].value!<1?'0.0':model.calculateAcValueFromAdc(appliances[index]).toStringAsFixed(1)??'',
+                                                unit: appliances[index].unit,
+                                                svgImage: AppHelpers().svgPath(appliances[index].image??''),
+                                                // svgImage: AppHelpers.svg_logo_icon,
+                                              );
+                                            },
+                                            // alignment: WrapAlignment.spaceEvenly,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
 
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 16),
-                        height: MediaQuery.sizeOf(context).height/4.9,
-                        width: double.infinity,
-                        decoration:  ShapeDecoration(
-                          color: themeManager.isDarkMode?Theme.of(context).inputDecorationTheme.fillColor:AppHelpers.lightContainerColor,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(32),topRight: Radius.circular(32)),
+                        Container(
+                          margin: const EdgeInsets.only(top: 16),
+                          height: MediaQuery.sizeOf(context).height/4.9,
+                          width: double.infinity,
+                          decoration:  ShapeDecoration(
+                            color: themeManager.isDarkMode?Theme.of(context).inputDecorationTheme.fillColor:AppHelpers.lightContainerColor,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(32),topRight: Radius.circular(32)),
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child:   Builder(
+                            builder: (context) {
+                              final GlobalKey<SlideActionState> _key = GlobalKey();
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SlideAction(
+                                  // alignment: Alignment,
+                                  outerColor: themeManager.isDarkMode?AppHelpers.lightTextColor:AppHelpers.lightButtonColor,
+                                  innerColor: themeManager.isDarkMode?AppHelpers.lightButtonColor:AppHelpers.lightTextColor,
+                                  key: _key,
+                                  onSubmit: () {
+                                    Future.delayed(
+                                      const Duration(seconds: 1),
+                                          () => _key.currentState?.reset(),
+
+                                    );
+                                    model.toggleInverter(lightState);
+                                    return null;
+                                  },
+                                  child: Text(
+                                    lightState==true?'Swipe to turn off your inverter':'Swipe to turn on your inverter',
+                                    style: TextStyle(
+                                      color:  themeManager.isDarkMode?Colors.white:AppHelpers.lightTextColor5,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                        alignment: Alignment.center,
-                        child:   Builder(
-                          builder: (context) {
-                            final GlobalKey<SlideActionState> _key = GlobalKey();
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SlideAction(
-                                // alignment: Alignment,
-                                outerColor: themeManager.isDarkMode?AppHelpers.lightTextColor:AppHelpers.lightButtonColor,
-                                innerColor: themeManager.isDarkMode?AppHelpers.lightButtonColor:AppHelpers.lightTextColor,
-                                key: _key,
-                                onSubmit: () {
-                                  Future.delayed(
-                                    const Duration(seconds: 1),
-                                        () => _key.currentState?.reset(),
 
-                                  );
-                                  model.toggleInverter(lightState);
-                                  return null;
-                                },
-                                child: Text(
-                                  lightState==true?'Swipe to turn off your inverter':'Swipe to turn on your inverter',
-                                  style: TextStyle(
-                                    color:  themeManager.isDarkMode?Colors.white:AppHelpers.lightTextColor5,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              LoadingWidget(isBusy: snapshot.data==null,)
-            ],
-          );
-        }
+                LoadingWidget(isBusy: snapshot.data==null,)
+              ],
+            );
+          }
       ),
     );
   }
 }
+

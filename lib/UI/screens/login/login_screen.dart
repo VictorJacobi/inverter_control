@@ -136,7 +136,7 @@ class LoginView extends HookWidget {
                     ),
                   ),
                   Container(
-                    height: MediaQuery.sizeOf(context).height/4,
+                    height: MediaQuery.sizeOf(context).height/5.5,
                     width: double.infinity,
                     decoration:  ShapeDecoration(
                       color: _themeManager.isDarkMode?Theme.of(context).inputDecorationTheme.fillColor:AppHelpers.lightContainerColor,
@@ -147,7 +147,7 @@ class LoginView extends HookWidget {
                     alignment: Alignment.center,
                     child:  MaterialButton(
                       minWidth: MediaQuery.sizeOf(context).width-32,
-                      height: 70,
+                      height: 60,
                       onPressed: () async{
                         await model.login().then((value) {
                           if(value){

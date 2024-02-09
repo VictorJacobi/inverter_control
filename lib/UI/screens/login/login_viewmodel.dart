@@ -13,6 +13,7 @@ class LoginViewModel extends BaseViewModel {
 
   Future<bool> login() async {
     final value = await runBusyFuture(_auth.login(email.text.trim(), password.text.trim()),throwException: true);
+    password.clear();
     return value!=null;
   }
   // void toggleTheme(){
